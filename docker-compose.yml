@@ -1,0 +1,11 @@
+services:
+  garage:
+    build:
+      context: ./build
+    container_name: garage
+    restart: unless-stopped
+    ports:
+      - "3000:80"
+    volumes:
+      - ./data.json:/www/data.json:ro
+      - ./img:/www/img:ro
