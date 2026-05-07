@@ -15,14 +15,14 @@ Simple website for Garage Sale made with React.
 
 A lightweight static page for listing garage sale items with photos, prices, status labels, details, and a payment/contact button.
 
-The site is configured through `data.json`, and product images are loaded from `img/`.
+The site is configured through `data.json`, and product images are loaded from `assets/`.
 
 ## Features
 - Static React page with runtime Babel
 - No npm install, build step, or compilation
 - Responsive layout for desktop and mobile
 - Product data loaded from `data.json`
-- Product images loaded from `img/`
+- Product images loaded from `assets/`
 - Configurable title, header, price format, status labels, and payment action
 - Self-hosted assets: React, ReactDOM, Babel, and Roboto are served locally
 - Dockerized with BusyBox `httpd`
@@ -74,7 +74,7 @@ The site is configured through `data.json`.
     {
       "name": "Sacacorchos",
       "url": "https://www.homesentry.co/p/sacacorchos-ilko-metalico/",
-      "imageUrl": "img/sacacorchos.jpg",
+      "imageUrl": "assets/sacacorchos.jpg",
       "price": 40000,
       "details": [
         "ENTREGA INMEDIATA",
@@ -103,7 +103,7 @@ The site is configured through `data.json`.
 
 - `name`: product name.
 - `url`: link opened when the product image is clicked. Can be an external URL or a local image.
-- `imageUrl`: image shown in the product card. Images should be placed in `img/`.
+- `imageUrl`: image shown in the product card.
 - `originalPrice`: optional original price. Used to calculate the discount badge.
 - `price`: current sale price.
 - `details`: list of product details.

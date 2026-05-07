@@ -22,7 +22,7 @@
     {
       "name": "Sacacorchos",
       "url": "https://www.homesentry.co/p/sacacorchos-ilko-metalico/",
-      "imageUrl": "img/sacacorchos.jpg",
+      "imageUrl": "assets/sacacorchos.jpg",
       "price": 40000,
       "details": ["ENTREGA INMEDIATA", "Sacacorchos/destapador", "Como nuevo"],
       "state": "available",
@@ -30,8 +30,8 @@
     },
     {
       "name": "Cuello",
-      "url": "img/cuello.jpg",
-      "imageUrl": "img/cuello.jpg",
+      "url": "assets/cuello.jpg",
+      "imageUrl": "assets/cuello.jpg",
       "originalPrice": 33240,
       "price": 15000,
       "details": ["ENTREGA INMEDIATA", "Un uso"],
@@ -40,8 +40,8 @@
     },
     {
       "name": "Teclado Inalambrico Logitech K375s",
-      "url": "img/teclado-collage.jpg",
-      "imageUrl": "img/teclado-collage.jpg",
+      "url": "assets/teclado-collage.jpg",
+      "imageUrl": "assets/teclado-collage.jpg",
       "originalPrice": 198000,
       "price": 85000,
       "details": ["ENTREGA INMEDIATA", "Compatible con Bluetooth o Logitech Unifying", "Soporte de conexion a 3 dispositivos", "Excelente estado"],
@@ -50,8 +50,8 @@
     },
     {
       "name": "Combo Bicicleta Todoterreno GW negro con gris, Casco Morado y Candado",
-      "url": "img/bicicleta-gris-combo.jpg",
-      "imageUrl": "img/bicicleta-gris-combo-collage.jpg",
+      "url": "assets/bicicleta-gris-combo.jpg",
+      "imageUrl": "assets/bicicleta-gris-combo-collage.jpg",
       "originalPrice": 1025900,
       "price": 700000,
       "details": ["ENTREGA INMEDIATA", "Bicicleta cambios Shimano, frenos de disco GW, amortiguador frontal, casco, candado", "RIN 29"],

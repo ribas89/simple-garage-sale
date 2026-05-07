@@ -4,7 +4,7 @@ WORKDIR /www
 
 COPY src/ ./
 
-RUN mkdir -p /www/img
+RUN mkdir -p /www/assets
 
 EXPOSE 80
 

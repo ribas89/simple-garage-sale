@@ -124,19 +124,6 @@ header {
   right: 10px;
 }
 
-.price {
-  bottom: 0;
-  height: 60px;
-  line-height: 60px;
-  color: #fff;
-  background-color: #ffcc00;
-  text-align: left;
-  padding-left: 18px;
-  font-size: 24px;
-  width: 100%;
-  cursor: pointer;
-}
-
 .available {
   position: relative;
   /* top: 200px; */
@@ -220,12 +207,25 @@ header {
   z-index: 2;
 }
 
-.box-price {
+.product-footer {
   display: flex;
   font-size: 18px;
 }
 
-.box {
+.price {
+  bottom: 0;
+  height: 60px;
+  line-height: 60px;
+  color: #fff;
+  background-color: #ffcc00;
+  text-align: left;
+  padding-left: 18px;
+  font-size: 24px;
+  width: 100%;
+  cursor: pointer;
+}
+
+.payment-wrapper {
   display: flex;
   width: 50%;
   font-size: 18px;

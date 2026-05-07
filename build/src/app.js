@@ -76,17 +76,19 @@ const ProductCard = (props) => {
         {discount > 0 && <span className="discount">-{discount}%</span>}
         <ul>
           {p.details.map((detail, i) => (
-            <li key={i}>{detail}</li>
+            <li key={i} dangerouslySetInnerHTML={{ __html: detail }} />
           ))}
         </ul>
       </div>
 
-      <div onClick={() => window.open(siteData.paymentAction.replace("${p.name}", encodeURIComponent(p.name)), "_blank")} className="box-price">
+      <div className="product-footer">
         <span className="price">{formatPrice(p.price)}</span>
-        <div className="box">
-          <img className="icon" src={siteData.paymentIcon} />
-          <button className="payment">{siteData.payment}</button>
-        </div>
+        {!siteData.paymentAction ? null : (
+          <div className="payment-wrapper" onClick={() => window.open(siteData.paymentAction.replace("${p.name}", encodeURIComponent(p.name)), "_blank")}>
+            <img className="icon" src={siteData.paymentIcon} />
+            <button className="payment">{siteData.payment}</button>
+          </div>
+        )}
       </div>
     </div>
   );
