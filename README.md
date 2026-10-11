@@ -9,7 +9,8 @@ Have a issue/question? https://link.ribas89.co.uk/ask
 Simple website for Garage Sale made with React.
 
 ## Demo
-[https://julian-alarcon.github.io/simple-garage-sale/](https://julian-alarcon.github.io/simple-garage-sale/)
+
+[https://jribas89.com/](https://jribas89.com/)
 
 ## Description
 
@@ -18,12 +19,15 @@ A lightweight static page for listing garage sale items with photos, prices, sta
 The site is configured through `data.json`, and product images are loaded from `assets/`.
 
 ## Features
+
 - Static React page with runtime Babel
 - No npm install, build step, or compilation
 - Responsive layout for desktop and mobile
 - Product data loaded from `data.json`
 - Product images loaded from `assets/`
-- Configurable title, header, price format, status labels, and payment action
+- Configurable title, header, price format, price labels, status labels, and payment action
+- Optional original price with discount badge
+- Product details can be plain text/HTML or styled links
 - Self-hosted assets: React, ReactDOM, Babel, and Roboto are served locally
 - Dockerized with BusyBox `httpd`
 
@@ -47,19 +51,24 @@ If running on a server, replace `localhost` with the server IP or domain.
 
 The site is configured through `data.json`.
 
-### Example
-
 ```json
 {
   "title": "Garage Sale - Milena & Julian",
   "header": "<header>Garage Sale<br />Milena & Julian</header><section class=\"subtitle\"><h3>We accept Nequi, Colpatria, cash, or PayPal. Bogotá only.</h3><h4>Some delivery dates may vary by a few days.</h4><p>Click or tap the photos to see more details about each item.</p></section>",
-  "priceFormat": {
-    "locale": "es-CO",
-    "options": {
-      "style": "currency",
-      "currency": "COP",
-      "maximumFractionDigits": 0
-    }
+  "price": {
+    "format": {
+      "locale": "es-CO",
+      "options": {
+        "style": "currency",
+        "currency": "COP",
+        "maximumFractionDigits": 0
+      }
+    },
+    "labels": {
+      "from": "From",
+      "to": "For"
+    },
+    "background": "#ffcc00"
   },
   "states": {
     "available": "DISPONIBLE",
@@ -83,6 +92,23 @@ The site is configured through `data.json`.
       ],
       "state": "available",
       "purchaser": "id"
+    },
+    {
+      "name": "Cuello",
+      "url": "assets/cuello.jpg",
+      "imageUrl": "assets/cuello.jpg",
+      "originalPrice": 33240,
+      "price": 15000,
+      "details": [
+        "ENTREGA INMEDIATA",
+        "Un uso",
+        {
+          "link": "https://example.com/product-page",
+          "label": "Página del producto"
+        }
+      ],
+      "state": "reserved",
+      "purchaser": "id"
     }
   ]
 }
@@ -92,7 +118,11 @@ The site is configured through `data.json`.
 
 - `title`: browser tab title.
 - `header`: HTML rendered at the top of the page. Use regular HTML attributes like `class`, not React `className`.
-- `priceFormat`: locale and options passed to `toLocaleString()` for price formatting.
+- `price`: price display configuration.
+- `price.format`: locale and options passed to `toLocaleString()` for price formatting.
+- `price.labels.from`: label shown before the original price.
+- `price.labels.to`: label shown before the current price.
+- `price.background`: background color used by the price area.
 - `states`: labels shown for each item state.
 - `payment`: text shown on the payment/contact button.
 - `paymentAction`: URL opened when the payment/contact button is clicked. `${p.name}` is replaced with the product name.
@@ -104,24 +134,50 @@ The site is configured through `data.json`.
 - `name`: product name.
 - `url`: link opened when the product image is clicked. Can be an external URL or a local image.
 - `imageUrl`: image shown in the product card.
-- `originalPrice`: optional original price. Used to calculate the discount badge.
+- `originalPrice`: optional original price. Used to show the original price and calculate the discount badge.
 - `price`: current sale price.
 - `details`: list of product details.
 - `state`: item status.
 - `purchaser`: optional internal tracking field. Not shown on the website.
 
+### Product details
+
+The `details` array supports plain strings and link objects.
+
+Plain strings are rendered as regular list items.
+
+Link objects are rendered as styled links that open in a new tab.
+
+Link object shape:
+
+    {
+      "link": "https://example.com/product-page",
+      "label": "Página del producto"
+    }
+
+You can mix both formats in the same `details` array.
+
+### Price display
+
+If a product has only `price`, the site shows the current price.
+
+If a product has both `originalPrice` and `price`, and `originalPrice` is greater than `price`, the site shows the original price and the current price.
+
+Example display:
+
+    From $33.240
+    For $15.000
+
+The original price value is shown with a strikethrough, but the `from` label is not.
+
 ### Item status
 
 Valid `state` values:
 
-- `available`: green banner on top
-- `reserved`: blue banner in the middle
-- `sold`: red banner on top with a greyed image
-- `notavailable`: grey banner in the middle with a greyed image
-
-## Credits
-
-* [Jonathan Ribas](https://profile.ribas89.co.uk/)
+- `available`: green banner
+- `reserved`: blue banner
+- `sold`: red banner with a greyed image
+- `notavailable`: grey banner with a greyed image
 
 ## License
 

@@ -14,9 +14,19 @@ const App = () => {
 };
 
 const ProductList = (props) => {
+  const sortProducts = (a, b) => {
+    const aAvailable = a.status === "available";
+    const bAvailable = b.status === "available";
+
+    if (aAvailable && !bAvailable) return -1;
+    if (!aAvailable && bAvailable) return 1;
+
+    return a.name.localeCompare(b.name);
+  };
+
   return (
     <div className="container">
-      {props.products.map((p, i) => (
+      {props.products.sort(sortProducts).map((p, i) => (
         <ProductCard key={i} product={p} />
       ))}
     </div>
@@ -27,62 +37,45 @@ const ProductCard = (props) => {
   const siteData = React.useContext(SiteContext);
   const p = props.product;
 
-  const formatPrice = (price) => price.toLocaleString(siteData.priceFormat.locale, siteData.priceFormat.options);
+  const formatPrice = (price) => price.toLocaleString(siteData.price.format.locale, siteData.price.format.options);
 
   const discount = Math.round(100 - (p.price / p.originalPrice) * 100);
 
   return (
     <div className="product">
-      <a href={p.url} target="_blank">
-        {p.state == "sold" ? (
-          <span className="product-span">
-            <div className="sold">{siteData.states.sold}</div>
-            <img className="product-img-filter-sold" src={p.imageUrl} loading="lazy" />
-          </span>
-        ) : (
-          ""
-        )}
-
-        {p.state == "reserved" ? (
-          <span className="product-span">
-            <div className="reserved">{siteData.states.reserved}</div>
-            <img className="product-img-filter-reserved" src={p.imageUrl} loading="lazy" />
-          </span>
-        ) : (
-          ""
-        )}
-
-        {p.state == "notavailable" ? (
-          <span className="product-span">
-            <div className="notavailable">{siteData.states.notavailable}</div>
-            <img className="product-img-filter-notavailable" src={p.imageUrl} loading="lazy" />
-          </span>
-        ) : (
-          ""
-        )}
-
-        {p.state == "available" ? (
-          <span className="product-span">
-            <div className="available">{siteData.states.available}</div>
-            <img className="product-img" src={p.imageUrl} loading="lazy" />
-          </span>
-        ) : (
-          ""
-        )}
+      <a href={p.url} target="_blank" rel="noopener noreferrer">
+        <ProductHeader product={p} discount={discount} />
       </a>
-
+      <div className="product-line" />
       <div className="product-details">
         <h3>{p.name}</h3>
-        {discount > 0 && <span className="discount">-{discount}%</span>}
         <ul>
           {p.details.map((detail, i) => (
-            <li key={i} dangerouslySetInnerHTML={{ __html: detail }} />
+            <li key={i}>
+              <ProductLink detail={detail} />
+            </li>
           ))}
         </ul>
       </div>
 
       <div className="product-footer">
-        <span className="price">{formatPrice(p.price)}</span>
+        <span className="price" style={{ backgroundColor: siteData.price.bgprice }}>
+          {p.originalPrice && p.originalPrice > p.price ? (
+            <>
+              <span className="original-price">
+                <span className="price-label">{siteData.price.labels.from}</span> <span className="original-price-value">{formatPrice(p.originalPrice)}</span>
+              </span>
+
+              <span className="current-price">
+                <span className="price-label">{siteData.price.labels.to}</span> <span className="current-price-value">{formatPrice(p.price)}</span>
+              </span>
+            </>
+          ) : (
+            <span className="current-price">
+              <span className="current-price-value">{formatPrice(p.price)}</span>
+            </span>
+          )}
+        </span>
         {!siteData.paymentAction ? null : (
           <div className="payment-wrapper" onClick={() => window.open(siteData.paymentAction.replace("${p.name}", encodeURIComponent(p.name)), "_blank")}>
             <img className="icon" src={siteData.paymentIcon} />
@@ -92,6 +85,42 @@ const ProductCard = (props) => {
       </div>
     </div>
   );
+};
+
+const ProductHeader = ({ product, discount }) => {
+  const siteData = React.useContext(SiteContext);
+
+  const p = product;
+  const cStatus = p.status || "notavailable";
+  const stateLabel = siteData.status[cStatus];
+
+  const imageClassName = cStatus === "available" ? "product-img" : `product-img product-img-filter-${cStatus}`;
+
+  return (
+    <div className="product-header">
+      <div className={cStatus}>{stateLabel}</div>
+      {discount > 0 && (
+        <div className="discount" style={{ backgroundColor: siteData.price.bgdiscount }}>
+          <div>-{discount}%</div>
+        </div>
+      )}
+      <img className={imageClassName} src={p.coverURL} loading="lazy" />
+    </div>
+  );
+};
+
+const ProductLink = ({ detail }) => {
+  const isLinkObject = typeof detail === "object" && detail !== null && "link" in detail;
+
+  if (isLinkObject) {
+    return (
+      <a href={detail.link} target="_blank" rel="noopener noreferrer" className="product-link">
+        {detail.label || detail.link}
+      </a>
+    );
+  }
+
+  return <div dangerouslySetInnerHTML={{ __html: detail }} />;
 };
 
 fetch("./data.json")
